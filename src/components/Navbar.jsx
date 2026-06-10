@@ -59,7 +59,7 @@ export default function Navbar() {
             : '1px solid transparent',
         }}
       >
-        <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '64px' }}>
+        <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '56px',padding:'0 16px' }}>
           {/* Logo */}
           <a href="#" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '10px' }}>
             <div style={{
@@ -77,13 +77,9 @@ export default function Navbar() {
                 WebkitTextFillColor: 'transparent',
               }}>AK</span>
             </div>
-            <span style={{
-              fontFamily: 'Orbitron, sans-serif',
-              fontSize: '14px', fontWeight: '600',
-              color: '#e8e8ef',
-              letterSpacing: '0.05em',
-              display: window.innerWidth < 480 ? 'none' : 'block',
-            }}>Avinash</span>
+            <span className="logo-text">
+                Avinash
+              </span>
           </a>
 
           {/* Desktop nav */}
@@ -115,13 +111,12 @@ export default function Navbar() {
               <FiGithub size={16} />
             </a>
             <a
-              href={personalInfo.resumeUrl}
-              download
-              className="btn-primary"
-              style={{ padding: '8px 18px', fontSize: '13px' }}
-            >
-              Resume
-            </a>
+  href={personalInfo.resumeUrl}
+  download
+  className="btn-primary resume-btn"
+>
+  Resume
+</a>
 
             {/* Hamburger */}
             <button
@@ -153,7 +148,7 @@ export default function Navbar() {
           WebkitBackdropFilter: 'blur(20px)',
           borderBottom: '1px solid rgba(0,217,240,0.1)',
           zIndex: 999,
-          padding: mobileOpen ? '20px 24px 28px' : '0 24px',
+          padding: mobileOpen ? '16px' : '0',
           maxHeight: mobileOpen ? '400px' : '0',
           overflow: 'hidden',
           transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)',

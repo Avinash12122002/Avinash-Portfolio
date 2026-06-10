@@ -21,7 +21,8 @@ function ExperienceCard({ exp, index, inView }) {
 
   return (
     <div style={{
-      display: "flex", gap: "0", alignItems: "flex-start",
+      display: "flex", gap: "0", alignItems: "flex-start" ,flexWrap: "nowrap",
+width: "100%",
       opacity: 0,
       animation: inView ? `fadeLeft 0.7s ${index * 150}ms ease forwards` : "none",
     }}>
@@ -60,6 +61,7 @@ function ExperienceCard({ exp, index, inView }) {
       <div
         style={{
           flex: 1,
+          minWidth: 0,
           marginBottom: index < experience.length - 1 ? "40px" : "0",
           background: "rgba(255,255,255,0.02)",
           border: `1px solid ${exp.color}20`,
@@ -88,7 +90,15 @@ function ExperienceCard({ exp, index, inView }) {
         }}
           onClick={() => setExpanded(v => !v)}
         >
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "8px" }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "flex-start",
+              flexWrap: window.innerWidth < 768 ? "wrap" : "nowrap",
+              gap: "12px",
+            }}
+          >
             <div>
               <h3 style={{
                 fontFamily: "Orbitron, sans-serif",
@@ -166,7 +176,7 @@ function ExperienceCard({ exp, index, inView }) {
             </ul>
 
             {/* Tech used */}
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "6px",overflowWrap: "break-word",}}>
               {exp.tech.map(t => (
                 <span key={t} style={{
                   padding: "3px 10px",
@@ -256,7 +266,7 @@ export default function Experience() {
   const { ref: eduRef, isInView: eduInView }   = useInView({ threshold: 0.1 });
 
   return (
-    <section id="experience" className="section" style={{ background: "var(--bg-2)", position: "relative", overflow: "hidden" }}>
+    <section id="experience" className="section" style={{ background: "var(--bg-2)", position: "relative", overflow: "hidden",padding: "60px 16px", }}>
       {/* Blob decorations */}
       <div style={{ position: "absolute", top: "-60px", right: "-80px", width: "400px", height: "400px",
         background: "radial-gradient(circle, rgba(0,217,240,0.04) 0%, transparent 70%)", pointerEvents: "none" }} />
@@ -270,7 +280,7 @@ export default function Experience() {
         </div>
 
         {/* Timeline grid */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(500px, 1fr))", gap: "0" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 500px), 1fr))",gap: "0" }}>
           <div ref={expRef}>
             {experience.map((exp, i) => (
               <ExperienceCard key={exp.id} exp={exp} index={i} inView={expInView} />
@@ -287,7 +297,7 @@ export default function Experience() {
           }}>
             <span>🎓</span> Education
           </h3>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "16px" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 280px), 1fr))", gap: "16px" }}>
             {education.map((edu, i) => (
               <EduCard key={edu.degree} edu={edu} i={i} inView={eduInView} />
             ))}

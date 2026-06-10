@@ -545,3 +545,49 @@ textarea.form-input { resize: vertical; min-height: 140px; }
     0 0 15px rgba(0, 217, 240, 0.3),
     0 0 30px rgba(139, 92, 246, 0.15);
 }
+
+.logo-text{
+  font-family: Orbitron, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #e8e8ef;
+  letter-spacing: .05em;
+}
+
+@media (max-width:480px){
+  .logo-text{
+    display:none;
+  }
+}
+
+@media (max-width:768px){
+  .resume-btn{
+    display:none !important;
+  }
+}
+
+@media (max-width:768px){
+
+  .hidden-mobile{
+    display:none !important;
+  }
+
+  .resume-btn{
+    display:none !important;
+  }
+
+  .logo-text{
+    display:none;
+  }
+
+  .container{
+    padding-left:16px !important;
+    padding-right:16px !important;
+  }
+}
+
+@media (min-width:769px){
+  .show-mobile{
+    display:none !important;
+  }
+}
