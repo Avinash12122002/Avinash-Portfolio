@@ -168,6 +168,16 @@ Software Engineering:
 
 WORK EXPERIENCE
 
+Groworld Vijatour Pvt. Ltd. — Full Stack Developer
+Duration: May 2026 – Present
+Mode: Delhi, India
+Responsibilities:
+- Sole developer for company digital platforms, managing requirement gathering, UI/UX, coding, QA, and deployment across 3 production systems.
+- Built and maintain tmsvisa.com (MERN + WordPress), generating 50+ monthly inquiry leads.
+- Run triloknathimmigration.in (MERN + WordPress), supporting 30+ monthly client inquiries.
+- Architected and maintain crm.tmsvisa.com (Next.js, TypeScript, MongoDB) with 20+ features, managing 100+ active clients.
+- Engineered REST APIs & MongoDB schemas powering real-time data sync across all 3 platforms.
+
 IBM — Frontend Development Intern
 Duration: Jul 2025 – Aug 2025
 Mode: Remote
@@ -189,57 +199,46 @@ Responsibilities:
 
 FEATURED PROJECTS
 
-1. AI Online Assessment Platform
-Tech Stack:
-React.js, Node.js, Flask, MongoDB, Gemini AI
+1. TMS Visa CRM (crm.tmsvisa.com)
+GitHub: https://github.com/Avinash12122002/CRM
+Live: https://crm.tmsvisa.com
+Tech Stack: Next.js, TypeScript, MongoDB, Node.js, Tailwind CSS
+Features: Internal CRM with 20+ capabilities including lead pipeline management, client record-keeping, case status tracking, and role-based dashboards managing 100+ active clients.
 
-Features:
-- AI-generated questions
-- Real-time assessment
-- Tab-switch detection
-- Candidate management
-- HR dashboard
-- Automated evaluation
+2. tmsvisa.com
+GitHub: https://github.com/Avinash12122002/tmsvisa
+Live: https://tmsvisa.com
+Tech Stack: React, Node.js, Express.js, MongoDB, WordPress, Tailwind CSS
+Features: Company primary visa services website combining React/Node.js frontend with WordPress CMS layer for non-technical staff management, generating 50+ monthly leads.
 
-2. Airbnb Clone
-Tech Stack:
-Node.js, Express.js, MongoDB, EJS, Tailwind CSS
+3. triloknathimmigration.in
+GitHub: https://github.com/Avinash12122002/Triloknath-Immigration
+Live: https://triloknathimmigration.in
+Tech Stack: React, Node.js, Express.js, MongoDB, WordPress, SEO
+Features: Immigration consultancy site covering 10+ service categories with SEO-friendly pages and clear CTAs, supporting 30+ client inquiries per month.
 
-Features:
-- Property listings
-- Booking management
-- Authentication
-- CRUD operations
-- Responsive design
+4. Developer Portfolio
+GitHub: https://github.com/Avinash12122002/Avinash-Portfolio
+Tech Stack: React, Vite, Tailwind CSS, JavaScript, Groq AI, EmailJS
+Features: Interactive developer portfolio showcasing full-stack projects, experience timeline, interactive particle network, and AI chat widget.
 
-3. Grocery Shop Application
-Tech Stack:
-React.js, Context API, JavaScript
+5. AI Online Assessment Platform
+GitHub: https://github.com/Avinash12122002/AI-Assessment-Test
+Tech Stack: React.js, Node.js, Flask, MongoDB, Gemini AI
+Features: AI-generated questions, tab-switch detection, webcam monitoring, candidate management, HR dashboard.
 
-Features:
-- Product catalog
-- Cart management
-- Billing system
-- Responsive UI
-
-4. Solar System 3D Simulation
-Tech Stack:
-Three.js, Canvas API, JavaScript
-
-Features:
-- Interactive planets
-- Realistic animations
-- Educational visualization
+6. Airbnb Clone
+GitHub: https://github.com/Avinash12122002/airbnb-clone
+Tech Stack: Node.js, Express.js, MongoDB, EJS, Tailwind CSS
+Features: Property listings, booking management, JWT auth, complete CRUD.
 
 ADDITIONAL PROJECTS
 
-- Netflix Clone
-- Spotify Clone
-- HR Dashboard
-- AI Quiz Generator
-- Candidate Assessment System
-- Job Portal Modules
-- Authentication Systems
+- DocQA AI Platform (React, FastAPI, Python, OpenAI, FAISS)
+- Content Broadcasting System (Next.js, React, Tailwind CSS, TanStack Query)
+- Solar System 3D Simulation (JavaScript, Three.js, Canvas API)
+- Netflix Clone & Spotify Clone
+- HR Dashboard & Candidate Assessment Modules
 
 AREAS OF INTEREST
 
