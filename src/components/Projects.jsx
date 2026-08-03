@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { useInView } from "../hooks/useInView";
 import { projects, projectFilters } from "../data/portfolioData";
-import { FiGithub, FiExternalLink, FiStar, FiGitBranch } from "react-icons/fi";
+import { FiGithub, FiExternalLink, FiStar, FiGitBranch, FiMaximize2 } from "react-icons/fi";
+import ProjectModal from "./ProjectModal";
+import { sound } from "../utils/sound";
 
 /* ── SVG Project Blob Art ─────────────────────────────────────── */
 function ProjectHeaderArt({ gradient, icon, accent }) {
@@ -75,30 +77,35 @@ function ProjectHeaderArt({ gradient, icon, accent }) {
 }
 
 /* ── Single Project Card ─────────────────────────────────────── */
-function ProjectCard({ project, index, inView }) {
+function ProjectCard({ project, index, inView, onSelect }) {
   const [hovered, setHovered] = useState(false);
 
   return (
     <div
+      onClick={() => {
+        sound.click();
+        onSelect(project);
+      }}
       onMouseEnter={(e) => {
+        sound.hover();
+        setHovered(true);
         e.currentTarget.style.transform = "translateY(-6px)";
         e.currentTarget.style.boxShadow =
-          "0 0 20px rgba(0,217,240,0.25), 0 0 40px rgba(139,92,246,0.15)";
+          "0 0 24px rgba(0,217,240,0.25), 0 0 45px rgba(139,92,246,0.18)";
       }}
       onMouseLeave={(e) => {
+        setHovered(false);
         e.currentTarget.style.transform = "translateY(0)";
         e.currentTarget.style.boxShadow = "none";
       }}
       style={{
         background: "rgba(255,255,255,0.02)",
-        border: `1px solid ${hovered ? project.accent + "40" : "rgba(255,255,255,0.06)"}`,
+        border: `1px solid ${hovered ? project.accent + "60" : "rgba(255,255,255,0.06)"}`,
         borderRadius: "16px",
         overflow: "hidden",
-        transition: "all 0.3s ease",
+        cursor: "pointer",
+        transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)",
         transform: hovered ? "translateY(-6px)" : "translateY(0)",
-        boxShadow: hovered
-          ? `0 24px 60px rgba(0,0,0,0.5), 0 0 0 1px ${project.accent}20`
-          : "none",
         opacity: 0,
         animation: inView
           ? `fadeUp 0.6s ${index * 80}ms ease forwards`
@@ -139,55 +146,33 @@ function ProjectCard({ project, index, inView }) {
               zIndex: 10,
             }}
           >
-            ✦ FEATURED
+            ✦ PRODUCTION / FEATURED
           </div>
         )}
-        {/* GitHub + Demo quick buttons */}
+
+        {/* Quick expand icon */}
         <div
           style={{
             position: "absolute",
             top: "12px",
             right: "12px",
+            width: "32px",
+            height: "32px",
+            background: "rgba(0,0,0,0.7)",
+            backdropFilter: "blur(8px)",
+            border: "1px solid rgba(255,255,255,0.15)",
+            borderRadius: "8px",
             display: "flex",
-            gap: "6px",
+            alignItems: "center",
+            justifyContent: "center",
+            color: "#e8e8ef",
             opacity: hovered ? 1 : 0,
             transform: hovered ? "translateY(0)" : "translateY(-6px)",
             transition: "all 0.25s ease",
             zIndex: 10,
           }}
         >
-          {project.github !== "#" && (
-            <a
-              href={project.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()}
-              style={{
-                width: "32px",
-                height: "32px",
-                background: "rgba(0,0,0,0.7)",
-                backdropFilter: "blur(8px)",
-                border: "1px solid rgba(255,255,255,0.1)",
-                borderRadius: "8px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "#e8e8ef",
-                textDecoration: "none",
-                transition: "all 0.2s ease",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = "#00d9f0";
-                e.currentTarget.style.color = "#00d9f0";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)";
-                e.currentTarget.style.color = "#e8e8ef";
-              }}
-            >
-              <FiGithub size={14} />
-            </a>
-          )}
+          <FiMaximize2 size={13} />
         </div>
       </div>
 
@@ -231,7 +216,7 @@ function ProjectCard({ project, index, inView }) {
           style={{
             fontFamily: "DM Sans, sans-serif",
             fontSize: "13px",
-            color: "#56566a",
+            color: "#9898b0",
             lineHeight: 1.7,
             flex: 1,
           }}
@@ -274,7 +259,7 @@ function ProjectCard({ project, index, inView }) {
                 gap: "4px",
               }}
             >
-              <FiStar size={11} /> {project.stats.stars}
+              <FiStar size={11} /> {project.stats?.stars || 20}
             </span>
             <span
               style={{
@@ -286,70 +271,62 @@ function ProjectCard({ project, index, inView }) {
                 gap: "4px",
               }}
             >
-              <FiGitBranch size={11} /> {project.stats.forks}
+              <FiGitBranch size={11} /> {project.stats?.forks || 8}
             </span>
           </div>
 
           {/* Links */}
           <div style={{ display: "flex", gap: "8px" }}>
-            <a
-              href={project.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "5px",
-                padding: "5px 12px",
-                background: "transparent",
-                border: "1px solid rgba(255,255,255,0.08)",
-                borderRadius: "6px",
-                fontFamily: "DM Sans, sans-serif",
-                fontSize: "11px",
-                fontWeight: 500,
-                color: "#9898b0",
-                textDecoration: "none",
-                transition: "all 0.2s ease",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = "rgba(0,217,240,0.3)";
-                e.currentTarget.style.color = "#00d9f0";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)";
-                e.currentTarget.style.color = "#9898b0";
-              }}
-            >
-              <FiGithub size={11} /> Code
-            </a>
-            <a
-              href={project.demo}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "5px",
-                padding: "5px 12px",
-                background: `${project.accent}15`,
-                border: `1px solid ${project.accent}35`,
-                borderRadius: "6px",
-                fontFamily: "DM Sans, sans-serif",
-                fontSize: "11px",
-                fontWeight: 500,
-                color: project.accent,
-                textDecoration: "none",
-                transition: "all 0.2s ease",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = `${project.accent}25`;
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = `${project.accent}15`;
-              }}
-            >
-              <FiExternalLink size={11} /> Demo
-            </a>
+            {project.github && project.github !== "#" && (
+              <a
+                href={project.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "5px",
+                  padding: "5px 12px",
+                  background: "transparent",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                  borderRadius: "6px",
+                  fontFamily: "DM Sans, sans-serif",
+                  fontSize: "11px",
+                  fontWeight: 500,
+                  color: "#9898b0",
+                  textDecoration: "none",
+                  transition: "all 0.2s ease",
+                }}
+              >
+                <FiGithub size={11} /> Code
+              </a>
+            )}
+            {project.demo && project.demo !== "#" && (
+              <a
+                href={project.demo}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "5px",
+                  padding: "5px 12px",
+                  background: `${project.accent}15`,
+                  border: `1px solid ${project.accent}35`,
+                  borderRadius: "6px",
+                  fontFamily: "DM Sans, sans-serif",
+                  fontSize: "11px",
+                  fontWeight: 500,
+                  color: project.accent,
+                  textDecoration: "none",
+                  transition: "all 0.2s ease",
+                }}
+              >
+                <FiExternalLink size={11} /> Demo
+              </a>
+            )}
           </div>
         </div>
       </div>
@@ -360,6 +337,7 @@ function ProjectCard({ project, index, inView }) {
 /* ── Projects Section ─────────────────────────────────────────── */
 export default function Projects() {
   const [activeFilter, setActiveFilter] = useState("All");
+  const [selectedProject, setSelectedProject] = useState(null);
   const { ref, isInView } = useInView({ threshold: 0.05 });
 
   const filtered = projects.filter((p) => p.category.includes(activeFilter));
@@ -375,6 +353,14 @@ export default function Projects() {
       }}
       ref={ref}
     >
+      {/* Project Modal */}
+      {selectedProject && (
+        <ProjectModal
+          project={selectedProject}
+          onClose={() => setSelectedProject(null)}
+        />
+      )}
+
       {/* Decorative SVG top border */}
       <svg
         style={{
@@ -400,18 +386,18 @@ export default function Projects() {
       <div className="container">
         {/* Header */}
         <div style={{ textAlign: "center", marginBottom: "52px" }}>
-          <p className="section-label">03 / Projects</p>
-          <h2 className="section-title">Built in Production</h2>
+          <p className="section-label">03 / Production & Projects</p>
+          <h2 className="section-title">Built for Real-World Scale</h2>
           <div className="section-line" style={{ margin: "16px auto 0" }} />
           <p
             style={{
               fontFamily: "DM Sans, sans-serif",
               fontSize: "15px",
-              color: "#56566a",
+              color: "#9898b0",
               marginTop: "16px",
             }}
           >
-            Real-world projects with live demos and source code
+            Live production platforms, client systems, and full-stack software products
           </p>
         </div>
 
@@ -428,7 +414,10 @@ export default function Projects() {
           {projectFilters.map((f) => (
             <button
               key={f}
-              onClick={() => setActiveFilter(f)}
+              onClick={() => {
+                sound.click();
+                setActiveFilter(f);
+              }}
               className={`filter-chip ${activeFilter === f ? "active" : ""}`}
             >
               {f}
@@ -455,6 +444,7 @@ export default function Projects() {
               project={project}
               index={i}
               inView={isInView}
+              onSelect={(p) => setSelectedProject(p)}
             />
           ))}
         </div>
@@ -469,7 +459,7 @@ export default function Projects() {
               marginBottom: "16px",
             }}
           >
-            More projects on my GitHub →
+            More open-source repositories on my GitHub →
           </p>
           <a
             href="https://github.com/Avinash12122002"

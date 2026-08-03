@@ -2,6 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ─── Scroll Progress Bar ───────────────────────────────────── */
+#scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #00d9f0, #8b5cf6);
+  z-index: 10000;
+  transition: width 0.1s ease-out;
+  pointer-events: none;
+  box-shadow: 0 0 10px rgba(0, 217, 240, 0.7);
+}
+
 /* ─── CSS Custom Properties ─────────────────────────────────── */
 :root {
   --bg: #030305;
@@ -28,6 +41,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 90px;
   font-size: 16px;
 }
 

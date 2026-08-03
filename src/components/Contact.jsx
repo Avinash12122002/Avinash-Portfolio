@@ -13,6 +13,7 @@ import {
   FiAlertCircle,
 } from "react-icons/fi";
 import emailjs from "@emailjs/browser";
+import { sound } from "../utils/sound";
 
 /* ── Service Card ────────────────────────────────────────────── */
 function ServiceCard({ svc, i, inView }) {
@@ -192,6 +193,7 @@ export default function Contact() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    sound.click();
     if (!validate()) return;
     setStatus("sending");
 
@@ -215,6 +217,7 @@ export default function Contact() {
         },
         PUBLIC_KEY,
       );
+      sound.success();
       setStatus("success");
       setFormData({ name: "", email: "", subject: "", message: "" });
       setTimeout(() => setStatus("idle"), 5000);

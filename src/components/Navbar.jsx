@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import { FiMenu, FiX, FiGithub } from 'react-icons/fi';
+import { FiMenu, FiX, FiGithub, FiSearch, FiVolume2, FiVolumeX } from 'react-icons/fi';
 import { personalInfo } from '../data/portfolioData';
+import { sound } from '../utils/sound';
 
 const NAV_LINKS = [
   { label: 'About',      href: '#about' },
@@ -10,7 +11,7 @@ const NAV_LINKS = [
   { label: 'Contact',    href: '#contact' },
 ];
 
-export default function Navbar() {
+export default function Navbar({ onOpenCommandPalette, soundEnabled, onToggleSound }) {
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive]     = useState('');
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -49,25 +50,27 @@ export default function Navbar() {
           top: 0, left: 0, right: 0,
           zIndex: 1000,
           transition: 'all 0.3s ease',
-          background: scrolled
-            ? 'rgba(3,3,5,0.85)'
-            : 'transparent',
-          backdropFilter: scrolled ? 'blur(20px)' : 'none',
-          WebkitBackdropFilter: scrolled ? 'blur(20px)' : 'none',
-          borderBottom: scrolled
-            ? '1px solid rgba(0,217,240,0.08)'
-            : '1px solid transparent',
+          background: 'rgba(5, 5, 14, 0.94)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          borderBottom: '1px solid rgba(0, 217, 240, 0.15)',
+          boxShadow: '0 4px 30px rgba(0, 0, 0, 0.5)',
         }}
       >
-        <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '56px',padding:'0 16px' }}>
+        <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '68px', padding: '0 24px' }}>
           {/* Logo */}
-          <a href="#" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <a
+            href="#"
+            onClick={() => sound.click()}
+            style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '10px', flexShrink: 0 }}
+          >
             <div style={{
               width: '38px', height: '38px',
-              background: 'linear-gradient(135deg, rgba(0,217,240,0.15), rgba(139,92,246,0.15))',
-              border: '1px solid rgba(0,217,240,0.3)',
+              background: 'linear-gradient(135deg, rgba(0,217,240,0.2), rgba(139,92,246,0.2))',
+              border: '1px solid rgba(0,217,240,0.4)',
               borderRadius: '10px',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
+              boxShadow: '0 0 16px rgba(0,217,240,0.2)',
             }}>
               <span style={{
                 fontFamily: 'Orbitron, sans-serif',
@@ -77,19 +80,20 @@ export default function Navbar() {
                 WebkitTextFillColor: 'transparent',
               }}>AK</span>
             </div>
-            <span className="logo-text">
-                Avinash
-              </span>
+            <span className="logo-text font-orbitron" style={{ fontWeight: 700, fontSize: '16px', color: '#e8e8ef', whiteSpace: 'nowrap' }}>
+              Avinash<span style={{ color: '#00d9f0' }}>.dev</span>
+            </span>
           </a>
 
           {/* Desktop nav */}
-          <nav style={{ display: 'flex', gap: '4px' }} className="hidden-mobile">
+          <nav style={{ display: 'flex', gap: '2px', alignItems: 'center' }} className="hidden-tablet">
             {NAV_LINKS.map(({ label, href }) => (
               <a
                 key={href}
                 href={href}
+                onClick={() => sound.hover()}
                 className={`nav-link ${active === href.slice(1) ? 'active' : ''}`}
-                style={{ padding: '6px 14px', borderRadius: '8px', transition: 'background 0.2s' }}
+                style={{ padding: '6px 12px', borderRadius: '8px', transition: 'background 0.2s', whiteSpace: 'nowrap', fontSize: '13px' }}
                 onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.04)'}
                 onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
               >
@@ -98,30 +102,79 @@ export default function Navbar() {
             ))}
           </nav>
 
-          {/* Right side */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          {/* Right side controls */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
+            {/* Command Palette Trigger */}
+            <button
+              onClick={() => {
+                sound.click();
+                if (onOpenCommandPalette) onOpenCommandPalette();
+              }}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                padding: '6px 12px',
+                background: 'rgba(0,217,240,0.06)',
+                border: '1px solid rgba(0,217,240,0.2)',
+                borderRadius: '8px',
+                color: '#00d9f0',
+                fontFamily: 'Fira Code, monospace',
+                fontSize: '12px',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
+                whiteSpace: 'nowrap',
+              }}
+              className="hidden-tablet"
+              title="Command Palette (Ctrl + K)"
+            >
+              <FiSearch size={13} />
+              <span>⌘K</span>
+            </button>
+
+            {/* Sound Toggle */}
+            <button
+              onClick={() => {
+                if (onToggleSound) onToggleSound();
+              }}
+              style={{
+                width: '36px', height: '36px',
+                background: soundEnabled ? 'rgba(0,217,240,0.12)' : 'rgba(255,255,255,0.03)',
+                border: `1px solid ${soundEnabled ? 'rgba(0,217,240,0.3)' : 'rgba(255,255,255,0.08)'}`,
+                borderRadius: '8px',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                cursor: 'pointer',
+                color: soundEnabled ? '#00d9f0' : '#9898b0',
+                transition: 'all 0.2s ease',
+              }}
+              title={soundEnabled ? 'Mute Sound Effects' : 'Enable Cyber Sound FX'}
+            >
+              {soundEnabled ? <FiVolume2 size={16} /> : <FiVolumeX size={16} />}
+            </button>
+
             <a
               href={personalInfo.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="social-icon"
+              className="social-icon hidden-tablet"
               style={{ width: '36px', height: '36px' }}
               title="GitHub"
             >
               <FiGithub size={16} />
             </a>
             <a
-  href={personalInfo.resumeUrl}
-  download
-  className="btn-primary resume-btn"
->
-  Resume
-</a>
+              href={personalInfo.resumeUrl}
+              download
+              className="btn-primary resume-btn"
+              style={{ padding: '8px 16px', fontSize: '13px', whiteSpace: 'nowrap' }}
+            >
+              Resume
+            </a>
 
             {/* Hamburger */}
             <button
               onClick={() => setMobileOpen(o => !o)}
-              className="show-mobile"
+              className="show-tablet"
               style={{
                 background: 'transparent',
                 border: '1px solid rgba(0,217,240,0.2)',
@@ -143,13 +196,13 @@ export default function Navbar() {
         style={{
           position: 'fixed',
           top: '64px', left: 0, right: 0,
-          background: 'rgba(3,3,5,0.97)',
+          background: 'rgba(5, 5, 14, 0.98)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
-          borderBottom: '1px solid rgba(0,217,240,0.1)',
+          borderBottom: '1px solid rgba(0,217,240,0.15)',
           zIndex: 999,
           padding: mobileOpen ? '16px' : '0',
-          maxHeight: mobileOpen ? '400px' : '0',
+          maxHeight: mobileOpen ? '420px' : '0',
           overflow: 'hidden',
           transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
           opacity: mobileOpen ? 1 : 0,
@@ -163,11 +216,11 @@ export default function Navbar() {
               onClick={() => setMobileOpen(false)}
               style={{
                 fontFamily: 'DM Sans, sans-serif',
-                fontSize: '16px',
+                fontSize: '15px',
                 fontWeight: '500',
                 color: active === href.slice(1) ? '#00d9f0' : '#9898b0',
                 textDecoration: 'none',
-                padding: '12px 16px',
+                padding: '10px 16px',
                 borderRadius: '10px',
                 background: active === href.slice(1) ? 'rgba(0,217,240,0.06)' : 'transparent',
                 display: 'flex',
@@ -177,18 +230,40 @@ export default function Navbar() {
               }}
             >
               {label}
-              <span style={{ fontSize: '18px', color: 'rgba(0,217,240,0.4)' }}>→</span>
+              <span style={{ fontSize: '16px', color: 'rgba(0,217,240,0.4)' }}>→</span>
             </a>
           ))}
+          <button
+            onClick={() => {
+              setMobileOpen(false);
+              if (onOpenCommandPalette) onOpenCommandPalette();
+            }}
+            style={{
+              fontFamily: 'Fira Code, monospace',
+              fontSize: '14px',
+              color: '#00d9f0',
+              padding: '10px 16px',
+              background: 'rgba(0,217,240,0.06)',
+              border: '1px solid rgba(0,217,240,0.2)',
+              borderRadius: '10px',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              marginTop: '4px',
+            }}
+          >
+            <FiSearch size={14} /> Open Command Palette (⌘K)
+          </button>
         </nav>
       </div>
 
       <style>{`
-        @media (max-width: 768px) {
-          .hidden-mobile { display: none !important; }
+        @media (max-width: 1024px) {
+          .hidden-tablet { display: none !important; }
         }
-        @media (min-width: 769px) {
-          .show-mobile { display: none !important; }
+        @media (min-width: 1025px) {
+          .show-tablet { display: none !important; }
         }
       `}</style>
     </>

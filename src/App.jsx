@@ -10,16 +10,25 @@ import Experience   from "./components/Experience";
 import Contact      from "./components/Contact";
 import Footer       from "./components/Footer";
 import AIChat       from "./components/AIChat";
+import CommandPalette from "./components/CommandPalette";
+import { sound } from "./utils/sound";
 
 export default function App() {
   const [loading, setLoading] = useState(true);
+  const [cmdOpen, setCmdOpen] = useState(false);
+  const [soundEnabled, setSoundEnabled] = useState(true);
   const progress = useScrollProgress();
 
   useEffect(() => {
     // Simulate resource loading
-    const t = setTimeout(() => setLoading(false), 2600);
+    const t = setTimeout(() => setLoading(false), 2400);
     return () => clearTimeout(t);
   }, []);
+
+  const toggleSound = () => {
+    const isNowEnabled = sound.toggle();
+    setSoundEnabled(isNowEnabled);
+  };
 
   if (loading) return <LoadingScreen />;
 
@@ -31,10 +40,14 @@ export default function App() {
         style={{ width: `${progress}%` }}
       />
 
-      <Navbar />
+      <Navbar
+        onOpenCommandPalette={() => setCmdOpen(true)}
+        soundEnabled={soundEnabled}
+        onToggleSound={toggleSound}
+      />
 
       <main>
-        <Hero />
+        <Hero onOpenCommandPalette={() => setCmdOpen(true)} />
         <About />
         <Skills />
         <Projects />
@@ -44,8 +57,17 @@ export default function App() {
 
       <Footer />
 
+      {/* Command Palette Keyboard Shortcut Modal */}
+      <CommandPalette
+        isOpen={cmdOpen}
+        onClose={() => setCmdOpen(false)}
+        soundEnabled={soundEnabled}
+        onToggleSound={toggleSound}
+      />
+
       {/* Groq AI Floating Chat */}
       <AIChat />
     </div>
   );
 }
+

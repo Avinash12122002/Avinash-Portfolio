@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useInView } from "../hooks/useInView";
 import { skillCategories, techIcons } from "../data/portfolioData";
+import { sound } from "../utils/sound";
 
 /* ── SVG Circuit Board Decoration ───────────────────────────── */
 function CircuitSVG() {
@@ -185,7 +186,10 @@ export default function Skills() {
           {skillCategories.map(cat => (
             <button
               key={cat.id}
-              onClick={() => setActiveTab(cat.id)}
+              onClick={() => {
+                sound.click();
+                setActiveTab(cat.id);
+              }}
               className={`tab-btn ${activeTab === cat.id ? "active" : ""}`}
             >
               {cat.label}
